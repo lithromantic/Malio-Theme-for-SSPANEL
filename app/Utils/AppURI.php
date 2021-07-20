@@ -140,7 +140,7 @@ class AppURI
                 switch ($item['net']) {
                     case 'ws':
                         $return .= ($item['tls'] == 'tls' ? ', obfs=wss' : ', obfs=ws');
-                        $return .= ', obfs-uri=' . $item['path'];
+                        $return .= ', obfs-uri=' . $item['path']. ', obfs-host=' . $item['host'];
                         break;
                     case 'tcp':
                         $return .= ($item['tls'] == 'tls' ? ', obfs=over-tls' : '');
