@@ -365,7 +365,7 @@ class Job
         }
 
         //自动续费
-        $boughts = Bought::where('renew', '<', time())->where('renew', '<>', 0)->get();
+        $boughts = Bought::where('renew', '<', time()+60)->where('renew', '<>', 0)->get();
         foreach ($boughts as $bought) {
             $user = User::where('id', $bought->userid)->first();
 
