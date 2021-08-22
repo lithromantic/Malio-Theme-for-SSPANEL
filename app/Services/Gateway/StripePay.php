@@ -33,6 +33,11 @@ class StripePay extends AbstractPayment
             return json_encode(['errcode' => -1, 'errmsg' => '充值最低金额为'.$stripe_minimum_amount.'元']);
         }
 
+        if ($request->hasHeader('Referer')) {
+			$cancel_url = $request->getHeader('Referer')[0];
+		} else {
+			$cancel_url = Config::get('baseUrl').'/user/code';
+		}
         $ch = curl_init();
         $url = 'https://api.exchangerate.host/latest?symbols=CNY&base='.strtoupper(MalioConfig::get('stripe_currency'));
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -56,8 +61,8 @@ class StripePay extends AbstractPayment
                 #'alipay',
             ],
             'mode' => 'payment',
-            'success_url' => Config::get('baseUrl') . '/user/shop' ,
-            'cancel_url' => Config::get('baseUrl') . '/user/code' ,
+            'success_url' => Config::get('baseUrl') . '/user/payment/return?source={CHECKOUT_SESSION_ID}' ,
+            'cancel_url' => $cancel_url ,
             ]);
 			
 			$pl = new Paylist();
