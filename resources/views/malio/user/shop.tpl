@@ -327,6 +327,11 @@
                           <i class="fab fa-qq"></i> {$i18n->get('qq-wallet')}
                         </div>
                         {/if}
+                        {if $config['payment_system'] == 'stripe'}
+                        <div id="creditcard" class="color col-12 col-md-2 col-lg-2" onclick="selectItem('payment','creditcard')">
+                          <i class="fas fa-credit-card"></i> {$i18n->get('creditcard')}
+                        </div>
+                        {/if}
                         {if $config['payment_system'] == 'payssion'}
                         <div id="unionpay" class="color col-12 col-md-2 col-lg-2" onclick="selectItem('payment','unionpay')">
                           <i class="malio-unionpay"></i> {$i18n->get('unionpay')}

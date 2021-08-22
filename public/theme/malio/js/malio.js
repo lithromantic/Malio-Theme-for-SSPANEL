@@ -1235,9 +1235,20 @@ function stripe(_0x2c0297, _0x424d7c) {
                             setTimeout(_0x55003f, 1000);
                         }
                     } else if (_0x2c0297 == 'creditCard') {
-                        stripe.redirectToCheckout({'sessionId': _0x8dc2cd.checkoutSessionId}).then(function (_0x2ea0b9) {
+                        console.log('信用卡付款中');
+                        if (_0x111248 == 'code') {
+                            window.location.href = _0x8dc2cd.url;
+                        } else {
+                            $('#stripe-alipay-modal').modal({
+                                'backdrop': 'static',
+                                'keyboard': false
+                            });
+                            $('#stripe-alipay-modal').modal('show');
+                            $('#to-stripe').attr('href', _0x8dc2cd.url);
+                        }
+                        /*stripe.redirectToCheckout({'sessionId': _0x8dc2cd.checkoutSessionId}).then(function (_0x2ea0b9) {
                             console.log('Failed to process payment.');
-                        });
+                        });*/
                     }
                 } else {
                     Swal.fire('发生错误', _0x8dc2cd.errmsg, 'error');

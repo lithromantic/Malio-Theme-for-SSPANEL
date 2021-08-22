@@ -254,6 +254,12 @@
                               <span class="selectgroup-button selectgroup-button-icon"><i class="fab fa-qq mr-1"></i>{$i18n->get('qq-wallet')}</span>
                             </label>
                             {/if}
+                            {if $config['payment_system'] == 'stripe'}
+                            <label class="selectgroup-item">
+                              <input type="radio" name="payment" value="creditcard" class="selectgroup-input">
+                              <span class="selectgroup-button selectgroup-button-icon"><i class="fas fa-credit-card mr-1"></i>{$i18n->get('creditcard')}</span>
+                            </label>
+                            {/if}
                             {if $config['payment_system'] == 'payssion'}
                             <label class="selectgroup-item">
                               <input type="radio" name="payment" value="unionpay" class="selectgroup-input">

@@ -50,6 +50,7 @@ $Malio_Config['mups_minimum_amount'] = 0;   //  Malio 聚合支付系统限制�
 $Malio_Config['stripe_minimum_amount'] = 4;   // Stripe 支付接口可充值的最低金额
 $Malio_Config['stripe_currency'] = 'usd';   // Stripe 支付接口的默认货币，可以写 hkd usd等，stripe限制了收款货币只能是账号注册地区的货币
 $Malio_Config['bitpyax_alipay_type'] = 'ALIPAY';   // bitpayx 支付宝充值的类似，ALIPAY是国内支付宝，ALIGLOBAL是国际支付宝
+$Malio_Config['card_checkout_pricetag'] = 'price_XXXXXXX';   // Stripe console 新增商品单价0.01本地货币单位
 
 
 ####### 注册 #######

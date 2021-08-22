@@ -352,6 +352,10 @@ $I18N['qq-wallet'] = array(
     'en' => 'QQ Wallet',
     'zh-cn' => 'QQ钱包'
 );
+$I18N['creditcard'] = array(
+    'en' => 'Credit Card',
+    'zh-cn' => '信用卡'
+);
 $I18N['unionpay'] = array(
     'en' => 'UnionPay',
     'zh-cn' => '银联支付'

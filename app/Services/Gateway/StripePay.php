@@ -11,6 +11,7 @@ use Exception;
 use Stripe\Stripe;
 use Stripe\Charge;
 use Stripe\Source;
+use Stripe\Checkout\Session;
 
 class StripePay extends AbstractPayment
 {
@@ -24,7 +25,7 @@ class StripePay extends AbstractPayment
         $price = $request->getParam('price');
         $type = $request->getParam('type');
         $user = Auth::getUser();
-        if ($type != 'alipay' and $type != 'wechat') {
+        if ($type != 'alipay' and $type != 'wechat' and $type != 'creditcard' ) {
             return json_encode(['errcode' => -1, 'errmsg' => 'wrong payment.']);
         }
         $stripe_minimum_amount = MalioConfig::get('stripe_minimum_amount');
@@ -33,7 +34,7 @@ class StripePay extends AbstractPayment
         }
 
         $ch = curl_init();
-        $url = 'https://api.exchangeratesapi.io/latest?symbols=CNY&base='.strtoupper(MalioConfig::get('stripe_currency'));
+        $url = 'https://api.exchangerate.host/latest?symbols=CNY&base='.strtoupper(MalioConfig::get('stripe_currency'));
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -42,6 +43,32 @@ class StripePay extends AbstractPayment
 
         $price_exchanged = ((double)$price) / ($currency->rates->CNY);
 
+		if ($type == 'creditcard') {
+            $checkout_session = Session::create([
+            'customer_email' => $user->email,
+            'line_items' => [[
+                # TODO: replace this with the `price` of the product you want to sell
+                'price' => MalioConfig::get('card_checkout_pricetag'), 
+                'quantity' => floor($price_exchanged * 100),
+            ]],
+            'payment_method_types' => [
+                'card',
+                #'alipay',
+            ],
+            'mode' => 'payment',
+            'success_url' => Config::get('baseUrl') . '/user/shop' ,
+            'cancel_url' => Config::get('baseUrl') . '/user/code' ,
+            ]);
+			
+			$pl = new Paylist();
+			$pl->userid = $user->id;
+			$pl->total = $price;
+			$pl->tradeno = $checkout_session['id'];
+			$pl->save();
+
+            return json_encode(array('url' => $checkout_session['url'], 'errcode' => 0, 'pid' => $pl->id));
+        }
+		
         $source = Source::create([
             'amount' => floor($price_exchanged * 100),
             'currency' => MalioConfig::get('stripe_currency'),
@@ -160,6 +187,18 @@ class StripePay extends AbstractPayment
                     }
                 }
                 break;
+			case 'checkout.session.completed':
+				$session = $event->data->object;
+				if ($session['payment_status'] == 'paid') {
+					$order = Paylist::where('tradeno', '=', $session['id'])->first();
+                    if ($order->status != 1) {
+                        $this->postPayment($session['id'], 'Stripe Credit card');
+                        echo 'SUCCESS';
+                    } else {
+                        echo 'ERROR';
+                    }
+				}
+				break;
             default:
                 http_response_code(400);
                 exit();
