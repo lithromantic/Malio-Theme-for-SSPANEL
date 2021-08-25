@@ -204,7 +204,7 @@ class UserController extends AdminController
             $pageNum = $request->getQueryParams()['page'];
         }
 
-        $users = User::where('email', 'LIKE', '%' . $text . '%')->orWhere('user_name', 'LIKE', '%' . $text . '%')->orWhere('im_value', 'LIKE', '%' . $text . '%')->orWhere('port', 'LIKE', '%' . $text . '%')->orWhere('remark', 'LIKE', '%' . $text . '%')->paginate(20, ['*'], 'page', $pageNum);
+        $users = User::where('email', 'LIKE binary', '%' . $text . '%')->orWhere('user_name', 'LIKE binary', '%' . $text . '%')->orWhere('im_value', 'LIKE binary', '%' . $text . '%')->orWhere('port', 'LIKE binary', '%' . $text . '%')->orWhere('remark', 'LIKE binary', '%' . $text . '%')->paginate(20, ['*'], 'page', $pageNum);
         $users->setPath('/admin/user/search/' . $text);
 
         //Ip::where("datetime","<",time()-90)->get()->delete();
@@ -438,30 +438,30 @@ class UserController extends AdminController
         if ($search) {
             $users = User::where(
                 static function ($query) use ($search) {
-                    $query->where('id', 'LIKE', "%$search%")
-                        ->orwhere('user_name', 'LIKE', "%$search%")
-                        ->orwhere('email', 'LIKE', "%$search%")
-                        ->orwhere('passwd', 'LIKE', "%$search%")
-                        ->orwhere('port', 'LIKE', "%$search%")
-                        ->orwhere('reg_date', 'LIKE', "%$search%")
-                        ->orwhere('invite_num', 'LIKE', "%$search%")
-                        ->orwhere('money', 'LIKE', "%$search%")
-                        ->orwhere('ref_by', 'LIKE', "%$search%")
-                        ->orwhere('method', 'LIKE', "%$search%")
-                        ->orwhere('reg_ip', 'LIKE', "%$search%")
-                        ->orwhere('node_speedlimit', 'LIKE', "%$search%")
-                        ->orwhere('im_value', 'LIKE', "%$search%")
-                        ->orwhere('class', 'LIKE', "%$search%")
-                        ->orwhere('class_expire', 'LIKE', "%$search%")
-                        ->orwhere('expire_in', 'LIKE', "%$search%")
-                        ->orwhere('remark', 'LIKE', "%$search%")
-                        ->orwhere('node_group', 'LIKE', "%$search%")
-                        ->orwhere('auto_reset_day', 'LIKE', "%$search%")
-                        ->orwhere('auto_reset_bandwidth', 'LIKE', "%$search%")
-                        ->orwhere('protocol', 'LIKE', "%$search%")
-                        ->orwhere('protocol_param', 'LIKE', "%$search%")
-                        ->orwhere('obfs', 'LIKE', "%$search%")
-                        ->orwhere('obfs_param', 'LIKE', "%$search%");
+                    $query->where('id', 'LIKE binary', "%$search%")
+                        ->orwhere('user_name', 'LIKE binary', "%$search%")
+                        ->orwhere('email', 'LIKE binary', "%$search%")
+                        ->orwhere('passwd', 'LIKE binary', "%$search%")
+                        ->orwhere('port', 'LIKE binary', "%$search%")
+                        ->orwhere('reg_date', 'LIKE binary', "%$search%")
+                        ->orwhere('invite_num', 'LIKE binary', "%$search%")
+                        ->orwhere('money', 'LIKE binary', "%$search%")
+                        ->orwhere('ref_by', 'LIKE binary', "%$search%")
+                        ->orwhere('method', 'LIKE binary', "%$search%")
+                        ->orwhere('reg_ip', 'LIKE binary', "%$search%")
+                        ->orwhere('node_speedlimit', 'LIKE binary', "%$search%")
+                        ->orwhere('im_value', 'LIKE binary', "%$search%")
+                        ->orwhere('class', 'LIKE binary', "%$search%")
+                        ->orwhere('class_expire', 'LIKE binary', "%$search%")
+                        ->orwhere('expire_in', 'LIKE binary', "%$search%")
+                        ->orwhere('remark', 'LIKE binary', "%$search%")
+                        ->orwhere('node_group', 'LIKE binary', "%$search%")
+                        ->orwhere('auto_reset_day', 'LIKE binary', "%$search%")
+                        ->orwhere('auto_reset_bandwidth', 'LIKE binary', "%$search%")
+                        ->orwhere('protocol', 'LIKE binary', "%$search%")
+                        ->orwhere('protocol_param', 'LIKE binary', "%$search%")
+                        ->orwhere('obfs', 'LIKE binary', "%$search%")
+                        ->orwhere('obfs_param', 'LIKE binary', "%$search%");
                 }
             )
                 ->orderByRaw($order_field . ' ' . $order)
@@ -469,30 +469,30 @@ class UserController extends AdminController
                 ->get();
             $count_filtered = User::where(
                 static function ($query) use ($search) {
-                    $query->where('id', 'LIKE', "%$search%")
-                        ->orwhere('user_name', 'LIKE', "%$search%")
-                        ->orwhere('email', 'LIKE', "%$search%")
-                        ->orwhere('passwd', 'LIKE', "%$search%")
-                        ->orwhere('port', 'LIKE', "%$search%")
-                        ->orwhere('reg_date', 'LIKE', "%$search%")
-                        ->orwhere('invite_num', 'LIKE', "%$search%")
-                        ->orwhere('money', 'LIKE', "%$search%")
-                        ->orwhere('ref_by', 'LIKE', "%$search%")
-                        ->orwhere('method', 'LIKE', "%$search%")
-                        ->orwhere('reg_ip', 'LIKE', "%$search%")
-                        ->orwhere('node_speedlimit', 'LIKE', "%$search%")
-                        ->orwhere('im_value', 'LIKE', "%$search%")
-                        ->orwhere('class', 'LIKE', "%$search%")
-                        ->orwhere('class_expire', 'LIKE', "%$search%")
-                        ->orwhere('expire_in', 'LIKE', "%$search%")
-                        ->orwhere('remark', 'LIKE', "%$search%")
-                        ->orwhere('node_group', 'LIKE', "%$search%")
-                        ->orwhere('auto_reset_day', 'LIKE', "%$search%")
-                        ->orwhere('auto_reset_bandwidth', 'LIKE', "%$search%")
-                        ->orwhere('protocol', 'LIKE', "%$search%")
-                        ->orwhere('protocol_param', 'LIKE', "%$search%")
-                        ->orwhere('obfs', 'LIKE', "%$search%")
-                        ->orwhere('obfs_param', 'LIKE', "%$search%");
+                    $query->where('id', 'LIKE binary', "%$search%")
+                        ->orwhere('user_name', 'LIKE binary', "%$search%")
+                        ->orwhere('email', 'LIKE binary', "%$search%")
+                        ->orwhere('passwd', 'LIKE binary', "%$search%")
+                        ->orwhere('port', 'LIKE binary', "%$search%")
+                        ->orwhere('reg_date', 'LIKE binary', "%$search%")
+                        ->orwhere('invite_num', 'LIKE binary', "%$search%")
+                        ->orwhere('money', 'LIKE binary', "%$search%")
+                        ->orwhere('ref_by', 'LIKE binary', "%$search%")
+                        ->orwhere('method', 'LIKE binary', "%$search%")
+                        ->orwhere('reg_ip', 'LIKE binary', "%$search%")
+                        ->orwhere('node_speedlimit', 'LIKE binary', "%$search%")
+                        ->orwhere('im_value', 'LIKE binary', "%$search%")
+                        ->orwhere('class', 'LIKE binary', "%$search%")
+                        ->orwhere('class_expire', 'LIKE binary', "%$search%")
+                        ->orwhere('expire_in', 'LIKE binary', "%$search%")
+                        ->orwhere('remark', 'LIKE binary', "%$search%")
+                        ->orwhere('node_group', 'LIKE binary', "%$search%")
+                        ->orwhere('auto_reset_day', 'LIKE binary', "%$search%")
+                        ->orwhere('auto_reset_bandwidth', 'LIKE binary', "%$search%")
+                        ->orwhere('protocol', 'LIKE binary', "%$search%")
+                        ->orwhere('protocol_param', 'LIKE binary', "%$search%")
+                        ->orwhere('obfs', 'LIKE binary', "%$search%")
+                        ->orwhere('obfs_param', 'LIKE binary', "%$search%");
                 }
             )->count();
         } else {
