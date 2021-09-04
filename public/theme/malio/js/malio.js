@@ -1234,7 +1234,7 @@ function stripe(_0x2c0297, _0x424d7c) {
                         if (_0x111248 == 'code') {
                             setTimeout(_0x55003f, 1000);
                         }
-                    } else if (_0x2c0297 == 'creditCard') {
+                    } else if (_0x2c0297 == 'creditcard') {
                         console.log('信用卡付款中');
                         if (_0x111248 == 'code') {
                             window.location.href = _0x8dc2cd.url;
