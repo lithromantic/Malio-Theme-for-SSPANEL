@@ -58,7 +58,13 @@ class StripePay extends AbstractPayment
             ]],
             'payment_method_types' => [
                 'card',
-                #'alipay',
+                'alipay',
+                'wechat_pay'
+            ],
+            'payment_method_options' =>[
+                'wechat_pay' => [
+                'client' => 'web',
+                ],
             ],
             'mode' => 'payment',
             'success_url' => Config::get('baseUrl') . '/user/payment/return?source={CHECKOUT_SESSION_ID}' ,
