@@ -189,7 +189,6 @@ class Job
             }
 
             if ($shop->reset() != 0 && $shop->reset_value() != 0 && $shop->reset_exp() != 0) {
-                $boughted_users[] = $bought->userid;
                 if ((time() - $shop->reset_exp() * 86400 < $bought->datetime) && (int)((time() - $bought->datetime) / 86400) % $shop->reset() == 0 && (int)((time() - $bought->datetime) / 86400) != 0) {
                     echo('流量重置-' . $user->id . "\n");
                     $user->transfer_enable = Tools::toGB($shop->reset_value());
@@ -197,6 +196,8 @@ class Job
                     $user->d = 0;
                     $user->last_day_t = 0;
                     $user->save();
+                    
+                    $boughted_users[] = $bought->userid;
 
                     $subject = Config::get('appName') . '-您的流量被重置了';
                     $to = $user->email;
